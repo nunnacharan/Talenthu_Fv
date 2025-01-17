@@ -25,7 +25,7 @@ function UserDashboard() {
             }
 
             try {
-                const response = await axios.get(`http://localhost:3000/api/user/info/email`, { params: { email } });
+                const response = await axios.get(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/user/info/email`, { params: { email } });
                 setUserInfo(response.data);
                 setNewInfo({ name: response.data.name, phone: response.data.phone, address: response.data.address, resume: null });
             } catch (error) {
@@ -63,7 +63,7 @@ function UserDashboard() {
         }
 
         try {
-            await axios.put(`http://localhost:3000/api/user/info/email`, formData, {
+            await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/user/info/email`, formData, {
                 params: { email },
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -116,7 +116,7 @@ function UserDashboard() {
                             <p className="text-gray-700 mb-4">
                                 <strong>Resume:</strong> 
                                 <a 
-                                    href={`http://localhost:3000/${userInfo.resume_path}`} 
+                                    href={`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/${userInfo.resume_path}`} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
                                     className="text-blue-500 underline ml-1"
