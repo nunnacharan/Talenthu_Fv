@@ -9,7 +9,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/user/${userId}');
+                const response = await axios.get('https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/user/${userId}');
                 setUserDetails(response.data);
             } catch (error) {
                 console.error('Error fetching user details:', error);
