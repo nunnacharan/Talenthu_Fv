@@ -84,11 +84,15 @@ const [savedResume, setSavedResume] = useState(null);
       fetchSkillsAndCertifications();
     }, []);
 
-    useEffect(() => {
-      // Assuming the email was saved in localStorage when sending the magic link
-      const savedEmail = localStorage.getItem('magicLinkEmail');
-      if (savedEmail) {
-        setEmail(savedEmail);
+     useEffect(() => {
+      try {
+        const savedEmail = localStorage.getItem("magicLinkEmail") || sessionStorage.getItem("magicLinkEmail");
+        console.log("Retrieved email:", savedEmail); // Debugging log
+        if (savedEmail) {
+          setEmail(savedEmail);
+        }
+      } catch (error) {
+        console.error("Error accessing localStorage:", error);
       }
     }, []);
 
