@@ -58,17 +58,25 @@ const { isDarkMode, toggleTheme } = useTheme();
 
 const handleDownloadDetails = async () => {
   try {
-    const response = await axios.get('https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates'); // Fetch candidates
+    const response = await axios.get('http://localhost:3000/api/candidates'); // Fetch candidates
 
     if (response.data.length === 0) {
       alert('No candidate details available to download.');
       return;
     }
 
-    // Create an array to hold all candidate details
-    const candidatesWithDetails = await Promise.all(response.data.map(async (candidate) => {
-      // Fetch personal details for each candidate
-      const personalDetailsResponse = await axios.get(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/personalDetails/${candidate.id}`);
+    // Filter out power users
+    const filteredCandidates = response.data.filter(candidate => candidate.role !== 'power_user');
+
+    if (filteredCandidates.length === 0) {
+      alert('No user details available to download.');
+      return;
+    }
+
+    // Create an array to hold user details
+    const candidatesWithDetails = await Promise.all(filteredCandidates.map(async (candidate) => {
+      // Fetch personal details for each user
+      const personalDetailsResponse = await axios.get(`http://localhost:3000/api/personalDetails/${candidate.id}`);
       const personalDetails = personalDetailsResponse.data;
 
       // Combine candidate and personal details
