@@ -373,16 +373,19 @@ const handleSubmit = async (e, section) => {
               }));
               break;
 
-          case 'qualifications':
-              await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/qualifications`, {
+              case 'qualifications':
+                console.log("Qualifications data being sent:", formData.qualifications);  // Check the structure here
+              
+                await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/qualifications`, {
                   qualifications: draftData.qualifications
-              });
-              // Update actual data after successful submit
-              setFormData(prev => ({
+                }, {
+                  headers: { 'Content-Type': 'application/json' }
+                });
+                setFormData(prev => ({
                   ...prev,
                   qualifications: draftData.qualifications
-              }));
-              break;
+                }));
+                break;
             case 'skills':
                 await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/skills`, {
                     skills: formData.skills
@@ -805,7 +808,7 @@ className={cn(
                   </div>
                 </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg mb-6">
+       <div className="bg-white dark:bg-gray-800 rounded-lg mb-6">
          <div className="border-b border-gray-200 dark:border-gray-700 p-6">
            <div className="flex justify-between items-center">
              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Qualifications</h3>
@@ -943,7 +946,8 @@ className={cn(
              </div>
            ))}
          </div>
-       )}</div>
+       )}
+       </div>
        </div>
        
        
