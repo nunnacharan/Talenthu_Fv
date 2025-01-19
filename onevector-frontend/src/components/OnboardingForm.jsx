@@ -48,7 +48,8 @@ const [isLoading, setIsLoading] = useState(false);
     const [workPermitStatus, setWorkPermitStatus] = useState('');
     const [preferredRoleType, setPreferredRoleType] = useState('');
     const [preferredWorkArrangement, setPreferredWorkArrangement] = useState('');
-    const [preferredCompensationRange, setPreferredCompensationRange] = useState('');
+   
+    const [compensation, setCompensation] = useState('');  // Update this to manage the compensation input
     const [resume, setResume] = useState(null);
     const [skills, setSkills] = useState([]);
     const [certifications, setCertifications] = useState([]);
@@ -84,7 +85,7 @@ const [savedResume, setSavedResume] = useState(null);
       fetchSkillsAndCertifications();
     }, []);
 
-     useEffect(() => {
+    useEffect(() => {
       try {
         const savedEmail = localStorage.getItem("magicLinkEmail") || sessionStorage.getItem("magicLinkEmail");
         console.log("Retrieved email:", savedEmail); // Debugging log
@@ -131,7 +132,7 @@ const [savedResume, setSavedResume] = useState(null);
         formData.append('work_permit_status', workPermitStatus);
         formData.append('preferred_role_type', preferredRoleType);
         formData.append('preferred_work_arrangement', preferredWorkArrangement);
-        formData.append('preferred_compensation_range', preferredCompensationRange);
+        formData.append('compensation',compensation);
         formData.append('resume', resume);
   
         // Append selected skills and certifications
@@ -193,6 +194,7 @@ const [savedResume, setSavedResume] = useState(null);
           setWorkPermitStatus(parsedData.workPermitStatus || '');
           setPreferredRoleType(parsedData.preferredRoleType || '');
           setPreferredWorkArrangement(parsedData.preferredWorkArrangement || '');
+          setCompensation(parsedData.compensation || '');
           
           // Skills and Certifications
           setSelectedSkills(parsedData.selectedSkills || []);
@@ -240,6 +242,8 @@ const handleSaveProgress = () => {
     workPermitStatus,
     preferredRoleType,
     preferredWorkArrangement,
+    compensation,
+
     selectedSkills,
     selectedCertifications,
     savedResume: resume ? {
@@ -340,13 +344,13 @@ const handleResumeUpload = (e) => {
   React.useEffect(() => {
     const requiredFields = {
       step1: ['username', 'password', 'firstName', 'lastName', 'linkedinUrl'],
-      step2: ['recentJob', 'availability', 'workPermitStatus', 'resume'],
+      step2: ['recentJob', 'availability', 'workPermitStatus', 'compensation','resume'],
       step3: ['selectedSkills', 'selectedCertifications'] // Added selectedCertifications
     };
 
     const filledFields = {
       step1: [username, password, firstName, lastName, linkedinUrl].filter(Boolean).length,
-      step2: [recentJob, availability, workPermitStatus, resume].filter(Boolean).length,
+      step2: [recentJob, availability, workPermitStatus,compensation, resume].filter(Boolean).length,
       step3: [
         selectedSkills.length > 0,
         selectedCertifications.length > 0 // Added certification check
@@ -362,7 +366,7 @@ const handleResumeUpload = (e) => {
     ) * 100;
 
     setFormProgress(Math.round(totalProgress));
-  }, [username, password, firstName, lastName, linkedinUrl, recentJob, availability, workPermitStatus, resume, selectedSkills, selectedCertifications]);
+  }, [username, password, firstName, lastName, linkedinUrl, recentJob, availability, workPermitStatus,compensation, resume, selectedSkills, selectedCertifications]);
 
 
   return (
@@ -736,7 +740,7 @@ const handleResumeUpload = (e) => {
                   </div>
                 </TabsContent>
 
-             {/* Step 2: Qualifications */}
+{/* Step 2: Qualifications */}
 <TabsContent value="step-2" className="animate-fadeIn">
   <div className="max-w-2xl mx-auto space-y-8">
     <div className="flex items-center space-x-2 pb-2 border-b border-gray-200">
@@ -751,13 +755,13 @@ const handleResumeUpload = (e) => {
           <Label htmlFor="recentJob" className="text-sm font-medium text-[#353939]">
             Current/Recent Job Title <span className="text-red-500">*</span>
           </Label>
-          <Input 
-            id="recentJob" 
-            value={recentJob} 
-            onChange={(e) => setRecentJob(e.target.value)} 
+          <Input
+            id="recentJob"
+            value={recentJob}
+            onChange={(e) => setRecentJob(e.target.value)}
             placeholder="e.g., Senior Software Engineer"
             className="mt-1 bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20"
-            required 
+            required
           />
         </div>
 
@@ -765,10 +769,10 @@ const handleResumeUpload = (e) => {
           <Label htmlFor="preferredRoles" className="text-sm font-medium text-[#353939]">
             Preferred Job Roles <span className="text-red-500">*</span>
           </Label>
-          <Input 
-            id="preferredRoles" 
-            value={preferredRoles} 
-            onChange={(e) => setPreferredRoles(e.target.value)} 
+          <Input
+            id="preferredRoles"
+            value={preferredRoles}
+            onChange={(e) => setPreferredRoles(e.target.value)}
             placeholder="e.g., Full Stack Developer, DevOps Engineer"
             className="mt-1 bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20"
             required
@@ -854,6 +858,25 @@ const handleResumeUpload = (e) => {
         </div>
       </div>
 
+      {/* Compensation Section */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+  <div className="group">
+    <Label className="text-sm font-medium text-[#353939]">
+      Compensation <span className="text-red-500">*</span>
+    </Label>
+    <Input
+      id="compensation"
+      type="number"
+      value={compensation}
+      onChange={(e) => setCompensation(e.target.value)}
+      placeholder="e.g., 50000"
+      className="mt-1 bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20"
+      required
+    />
+  </div>
+</div>
+
+
       {/* Updated Resume Upload Section with Clear Button */}
       <div className="space-y-2">
         <Label htmlFor="resume" className="text-sm font-medium text-[#353939]">
@@ -861,17 +884,17 @@ const handleResumeUpload = (e) => {
         </Label>
         <div className="flex items-center space-x-2">
           <div className="flex-1">
-          <Input
-  id="resume"
-  type="file"
-  accept=".pdf,.doc,.docx"
-  onChange={handleResumeUpload}
-  required={!savedResume}
-  className="mt-1 cursor-pointer bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20
-  file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
-  file:text-sm file:font-semibold file:bg-[#353939]/10 file:text-[#353939]
-  hover:file:bg-[#353939]/20"
-/>
+            <Input
+              id="resume"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={handleResumeUpload}
+              required={!savedResume}
+              className="mt-1 cursor-pointer bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20
+               file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+               file:text-sm file:font-semibold file:bg-[#353939]/10 file:text-[#353939]
+               hover:file:bg-[#353939]/20"
+            />
           </div>
           {resume && (
             <Button
@@ -891,9 +914,10 @@ const handleResumeUpload = (e) => {
           </p>
         )}
       </div>
-</div>
-</div>
+    </div>
+  </div>
 </TabsContent>
+
 
       
 <TabsContent value="step-3" className="animate-fadeIn">
@@ -1202,7 +1226,7 @@ const handleResumeUpload = (e) => {
  </motion.div>
         )}
 
-      </div>
+        </div>
     </div>
   );
 };
