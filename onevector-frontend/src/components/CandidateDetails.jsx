@@ -46,7 +46,7 @@ const [skills, setSkills] = useState([]);
 
     const [formData, setFormData] = useState({
         personalDetails: {},
-        qualifications: [],
+        qualifications: {},
         skills: [],
         username: '',
         certifications: []
@@ -56,13 +56,13 @@ const [skills, setSkills] = useState([]);
     const { isDarkMode, toggleTheme } = useTheme();
     const [originalData, setOriginalData] = useState({
       personalDetails: {},
-      qualifications: [],
+      qualifications: {},
       skills: [],
       certifications: []
   });
   const [draftData, setDraftData] = useState({
     personalDetails: {},
-    qualifications: [],
+    qualifications: {},
     skills: [],
     certifications: []
 });
@@ -98,7 +98,8 @@ const fetchPersonalDetails = async (id) => {
                 ...response.data.personalDetails,
                 username: candidate.username // Include username from candidate data
             } || {},
-            qualifications: response.data.qualifications || [],
+            qualifications: response.data.qualifications?.length > 0 ? response.data.qualifications : [{}],
+
             skills: response.data.skills || [],
             certifications: response.data.certifications || []
         };
@@ -295,16 +296,20 @@ const handleChange = (e) => {
                 }));
                 break;
 
-            case 'qualifications':
-                await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/qualifications`, {
+                case 'qualifications':
+                  console.log("Qualifications data being sent:", formData.qualifications);  // Check the structure here
+                
+                  await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/qualifications`, {
                     qualifications: draftData.qualifications
-                });
-                // Update actual data after successful submit
-                setFormData(prev => ({
+                  }, {
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                  setFormData(prev => ({
                     ...prev,
                     qualifications: draftData.qualifications
-                }));
-                break;
+                  }));
+                  break;
+                
               case 'skills':
                   await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/skills`, {
                       skills: formData.skills
@@ -718,7 +723,7 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
   </div>
 </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg mb-6">
+<div className="bg-white dark:bg-gray-800 rounded-lg mb-6">
   <div className="border-b border-gray-200 dark:border-gray-700 p-6">
     <div className="flex justify-between items-center">
       <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Qualifications</h3>
@@ -856,7 +861,8 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
       </div>
     ))}
   </div>
-)}</div>
+)}
+</div>
 </div>
 
 
