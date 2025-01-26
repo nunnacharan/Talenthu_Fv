@@ -829,82 +829,10 @@ useEffect(() => {
               );
             }
             return null;
-          })}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Availability</label>
-                  <Select
-                    value={filters.availability}
-                    onValueChange={(value) => handleFilterChange('availability', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select availability" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filterOptions.availability.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Work Authorization</label>
-                  <Select
-                    value={filters.workAuthorization}
-                    onValueChange={(value) => handleFilterChange('workAuthorization', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select work authorization" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filterOptions.workAuthorization.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Employment Type</label>
-                  <Select
-                    value={filters.employmentType}
-                    onValueChange={(value) => handleFilterChange('employmentType', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select employment type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filterOptions.employmentType.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Work Arrangement</label>
-                  <Select
-                    value={filters.workArrangement}
-                    onValueChange={(value) => handleFilterChange('workArrangement', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select work arrangement" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filterOptions.workArrangement.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+          }
+          )
+          }
+                
                 <div className="space-y-2">
         <label className="text-sm font-medium">Skills</label>
         <Select
