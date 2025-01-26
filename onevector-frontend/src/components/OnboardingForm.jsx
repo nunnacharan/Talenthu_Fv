@@ -91,10 +91,16 @@ const [phoneError, setPhoneError] = useState('');
     }, []);
 
     useEffect(() => {
-      // Assuming the email was saved in localStorage when sending the magic link
       const savedEmail = localStorage.getItem('magicLinkEmail');
       if (savedEmail) {
         setEmail(savedEmail);
+      } else {
+        const queryParams = new URLSearchParams(window.location.search);
+        const emailFromParams = queryParams.get('email');
+        if (emailFromParams) {
+          setEmail(emailFromParams);
+          localStorage.setItem('magicLinkEmail', emailFromParams); // Save to local storage
+        }
       }
     }, []);
 
