@@ -49,7 +49,7 @@ const [isLoading, setIsLoading] = useState(false);
     const [workPermitStatus, setWorkPermitStatus] = useState('');
     const [preferredRoleType, setPreferredRoleType] = useState('');
     const [preferredWorkArrangement, setPreferredWorkArrangement] = useState('');
-    const [preferredCompensationRange, setPreferredCompensationRange] = useState('');
+    const [compensation, setcompensation] = useState('');
     const [resume, setResume] = useState(null);
     const [skills, setSkills] = useState([]);
     const [certifications, setCertifications] = useState([]);
@@ -166,7 +166,7 @@ const [phoneError, setPhoneError] = useState('');
         formData.append('work_permit_status', workPermitStatus);
         formData.append('preferred_role_type', preferredRoleType);
         formData.append('preferred_work_arrangement', preferredWorkArrangement);
-        formData.append('preferred_compensation_range', preferredCompensationRange);
+        formData.append('compensation', compensation);
         formData.append('resume', resume);
   
         // Append selected skills and certifications
@@ -277,7 +277,7 @@ const handleSaveProgress = () => {
     preferredWorkArrangement, // Add this field
     selectedSkills,
     selectedCertifications,
-    preferredCompensationRange,
+    compensation,
     savedResume: resume ? {
       name: resume.name,
       type: resume.type,
@@ -974,9 +974,9 @@ const handleLinkedInChange = (e) => {
       Preferred Compensation Range <span className="text-red-500">*</span>
     </Label>
     <Select 
-      value={preferredCompensationRange} 
+      value={compensation} 
       onValueChange={(value) => {
-        setPreferredCompensationRange(value);
+        setcompensation(value);
         setQualificationsError('');
       }} 
       required
