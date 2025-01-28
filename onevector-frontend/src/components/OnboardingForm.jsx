@@ -91,9 +91,16 @@ const [phoneError, setPhoneError] = useState('');
     }, []);
 
     useEffect(() => {
-      const userEmail = localStorage.getItem('userEmail');
-      if (userEmail) {
-        setEmail(userEmail);
+      const savedEmail = localStorage.getItem('magicLinkEmail');
+      if (savedEmail) {
+        setEmail(savedEmail);
+      } else {
+        const queryParams = new URLSearchParams(window.location.search);
+        const emailFromParams = queryParams.get('email');
+        if (emailFromParams) {
+          setEmail(emailFromParams);
+          localStorage.setItem('magicLinkEmail', emailFromParams); // Save to local storage
+        }
       }
     }, []);
 
@@ -573,18 +580,18 @@ const handleLinkedInChange = (e) => {
                       <h3 className="text-lg font-semibold text-[#353939]">Account Details</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                    <div className="group">
-                      <Label htmlFor="email" className="text-sm font-medium text-[#353939]">
-                        Email <span className="text-red-500">*</span>
-                      </Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        value={email} 
-                        className="mt-1 bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20" 
-                        disabled 
-                      />
-                    </div>
+                      <div className="group">
+                        <Label htmlFor="email" className="text-sm font-medium text-[#353939]">
+                          Email <span className="text-red-500">*</span>
+                        </Label>
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          value={email} 
+                          className="mt-1 bg-gray-50 border-gray-200 focus:border-[#353939] focus:ring-[#353939]/20" 
+                          disabled 
+                        />
+                      </div>
                       <div className="group">
                         <Label htmlFor="username" className="text-sm font-medium text-[#353939]">
                           Username <span className="text-red-500">*</span>
