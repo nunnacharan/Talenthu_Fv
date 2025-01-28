@@ -11,11 +11,11 @@ import Profile from './components/Profile';
 import SuccessPage from './components/SuccessPage';
 import PowerCandidateDetails from './components/PowerCandidateDetails';
 import UserDetails from './components/UserDetails';
+import OnboardWrapper from './components/OnboardWrapper';
 
 import { useTheme } from './ThemeContext'; // Ensure this is the correct path
 import './index.css'; // Keep styles imported last for consistency
 import "@radix-ui/themes/styles.css";
-import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
 
@@ -29,10 +29,9 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Login />} />
-          <Route path="/onboard/" element={<OnboardingForm />} />
           <Route path="/success" element={<SuccessPage />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword/>} />
+          <Route path="/onboard" element={<OnboardWrapper />} />
 
           {/* Protected Routes */}
           <Route
