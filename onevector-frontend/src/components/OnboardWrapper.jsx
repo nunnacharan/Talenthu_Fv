@@ -23,7 +23,7 @@ const OnboardWrapper = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:3000/api/verify-token?token=${token}`);
+        const response = await axios.get(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/verify-token?token=${token}`);
         console.log("API Response:", response); // Add this
         if (response.data.email) {
           localStorage.setItem('userEmail', response.data.email);
