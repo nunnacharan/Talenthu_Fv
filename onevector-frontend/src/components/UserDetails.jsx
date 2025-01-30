@@ -738,75 +738,90 @@ className={cn(
           className="border-gray-300 dark:border-gray-600 focus:border-[#15BACD] focus:ring-[#15BACD]"
         />
       </div>
+      <div className="w-full space-y-2">
+            <Label className="text-gray-700 dark:text-gray-300">Resume</Label>
+            <input
+              type="file"
+              name="resume"
+              onChange={handleResumeChange}
+              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#72757F] dark:bg-[#2C2C2C] dark:text-white dark:border-gray-600"
+            />
+          </div>
+      </div>
+      <div className="flex justify-end space-x-3 mt-6">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={() => handleEditToggle('personalDetails')}
+          className="border-gray-300 text-gray-700 hover:bg-gray-100"
+        >
+          Cancel
+        </Button>
+        <Button 
+          type="submit"
+          className="bg-gradient-to-r from-[#15BACD] to-[#094DA2] text-white"
+        >
+          Save Changes
+        </Button>
+      </div>
+    </form>
+  ) : (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Username</Label>
+        <p className="font-medium text-[#343636] dark:text-white">{user8 || 'N/A'}</p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Phone Number</Label>
+        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.phone_no || 'N/A'}</p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">City</Label>
+        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.city || 'N/A'}</p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Location</Label>
+        <p className="text-[#343636] dark:text-white font-medium">
+          {formData.personalDetails?.state && formData.personalDetails?.country
+            ? `${formData.personalDetails.state}, ${formData.personalDetails.country}`
+            : formData.personalDetails?.state || formData.personalDetails?.country || 'N/A'}
+        </p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Postal Code</Label>
+        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.postal_code || 'N/A'}</p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Address</Label>
+        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.address_line1 || 'N/A'}</p>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">LinkedIn URL</Label>
+        {formData.personalDetails?.linkedin_url ? (
+          <a
+            href={formData.personalDetails.linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block truncate text-black dark:text-white font-medium underline"
+            title={formData.personalDetails.linkedin_url}
+          >
+            {formData.personalDetails.linkedin_url}
+          </a>
+        ) : (
+          <p className="text-gray-900 dark:text-white font-medium">N/A</p>
+        )}
+      </div>
+      <div className="space-y-2">
+        <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
+        <p className="text-[#343636] dark:text-white font-medium">
+          {formData.personalDetails?.resume_path || 'No resume uploaded'}
+        </p>
+      </div>
     </div>
-    
-    <div className="flex justify-end space-x-3 mt-6">
-      <Button 
-        type="button" 
-        variant="outline" 
-        onClick={() => handleEditToggle('personalDetails')}
-        className="border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-      >
-        Cancel
-      </Button>
-      <Button 
-        type="submit"
-        className="bg-gradient-to-r from-[#15BACD] to-[#094DA2] text-white hover:opacity-90"
-      >
-        Save Changes
-      </Button>
-    </div>
-  </form>
-) : (
-             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                   <div className="space-y-2">
-                     <Label className="text-sm text-gray-500 dark:text-gray-400">Username</Label>
-                     <p className="font-medium text-[#343636] dark:text-white">{user8 || 'N/A'}</p>
-                   </div>
-                <div className="space-y-2">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">Phone Number</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.phone_no || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">Country</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.country || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">City</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.city || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">State</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.state || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">Postal Code</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.postal_code || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2 col-span-2 lg:col-span-1">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">Address</Label>
-                        <p className="text-[#343636] dark:text-white font-medium">{formData.personalDetails?.address_line1 || 'N/A'}</p>
-                      </div>
-                      <div className="space-y-2 col-span-2 lg:col-span-1">
-                        <Label className="text-sm text-gray-500 dark:text-gray-400">LinkedIn URL</Label>
-                        {formData.personalDetails?.linkedin_url ? (
-                          <a
-                            href={formData.personalDetails.linkedin_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block truncate text-black dark:text-white font-medium underline"
-                            title={formData.personalDetails.linkedin_url}
-                          >
-                            {formData.personalDetails.linkedin_url}
-                          </a>
-                        ) : (
-                          <p className="text-gray-900 dark:text-white font-medium">N/A</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  </div>
-                </div>
+  )}
+</div>
+</div>
+
 
        <div className="bg-white dark:bg-gray-800 rounded-lg mb-6">
          <div className="border-b border-gray-200 dark:border-gray-700 p-6">
