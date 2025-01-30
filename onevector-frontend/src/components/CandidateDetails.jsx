@@ -280,21 +280,27 @@ const handleChange = (e) => {
 
         switch (section) {
             case 'personalDetails':
-                Object.entries(draftData.personalDetails).forEach(([key, value]) => {
-                    formDataToSubmit.append(key, value);
-                });
-                if (resumeFile) {
-                    formDataToSubmit.append('resume', resumeFile);
-                }
-                await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/personal`, formDataToSubmit, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                });
-                // Update actual data after successful submit
-                setFormData(prev => ({
-                    ...prev,
-                    personalDetails: draftData.personalDetails
-                }));
-                break;
+    Object.entries(draftData.personalDetails).forEach(([key, value]) => {
+        formDataToSubmit.append(key, value);
+    });
+
+    if (resumeFile) {
+        formDataToSubmit.append('resume', resumeFile);
+    }
+
+    const response = await axios.put(`http://localhost:3000/api/candidates/${id}/personal`, formDataToSubmit, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+
+    // Update actual data after successful submit
+    setFormData(prev => ({
+        ...prev,
+        personalDetails: {
+            ...draftData.personalDetails,
+            resume_path: response.data.personalDetails?.resume_path || prev.personalDetails.resume_path // Ensure resume_path is updated
+        }
+    }));
+    break;
 
                 case 'qualifications':
                   console.log("Qualifications data being sent:", formData.qualifications);  // Check the structure here
