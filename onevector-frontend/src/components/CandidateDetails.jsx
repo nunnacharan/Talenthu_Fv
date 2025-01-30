@@ -728,11 +728,17 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
         )}
       </div>
       <div className="space-y-2">
-        <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
-        <p className="text-[#343636] dark:text-white font-medium">
-          {formData.personalDetails?.resume_path || 'No resume uploaded'}
-        </p>
-      </div>
+  <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
+  <p className="text-[#343636] dark:text-white font-medium">
+    {formData?.personalDetails?.resume_path 
+      ? (
+          <a href={formData.personalDetails.resume_path} target="_blank" rel="noopener noreferrer">
+            View Resume
+          </a>
+        )
+      : 'No resume uploaded'}
+  </p>
+</div>
     </div>
   )}
 </div>
