@@ -279,22 +279,29 @@ const handleChange = (e) => {
         const formDataToSubmit = new FormData();
 
         switch (section) {
-            case 'personalDetails':
-                Object.entries(draftData.personalDetails).forEach(([key, value]) => {
-                    formDataToSubmit.append(key, value);
-                });
-                if (resumeFile) {
-                    formDataToSubmit.append('resume', resumeFile);
-                }
-                await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/personal`, formDataToSubmit, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                });
-                // Update actual data after successful submit
-                setFormData(prev => ({
-                    ...prev,
-                    personalDetails: draftData.personalDetails
-                }));
-                break;
+          case 'personalDetails':
+            Object.entries(draftData.personalDetails).forEach(([key, value]) => {
+                formDataToSubmit.append(key, value);
+            });
+        
+            if (resumeFile) {
+                formDataToSubmit.append('resume', resumeFile);
+            }
+        
+            const response = await axios.put(`https://5q5faxzgb7.execute-api.ap-south-1.amazonaws.com/api/candidates/${id}/personal`, formDataToSubmit, {
+              headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            
+            console.log('Response data:', response.data);
+            
+            setFormData(prev => ({
+              ...prev,
+              personalDetails: {
+                ...draftData.personalDetails,
+                resume_path: response.data.resume_path || prev.personalDetails.resume_path 
+              }
+            }));
+            break;
 
                 case 'qualifications':
                   console.log("Qualifications data being sent:", formData.qualifications);  // Check the structure here
@@ -396,16 +403,10 @@ const handleChange = (e) => {
              }
    };
 
-   const handleResumeChange = (e, index) => {
-    const file = e.target.files[0]; // Get the uploaded file
-    if (file) {
-      const updatedQualifications = [...formData.qualifications];
-      updatedQualifications[index].resume_path = file.name; // Update the resume_path with the file name
-      setFormData({
-        ...formData,
-        qualifications: updatedQualifications,
-      });
-    }
+   const handleResumeChange = (e) => {
+    const file = e.target.files[0];
+    console.log('Selected file:', file);
+    setResumeFile(file);
   };
 
     const handleLogout = () => {
@@ -728,12 +729,12 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
           <p className="text-gray-900 dark:text-white font-medium">N/A</p>
         )}
       </div>
-      <div className="space-y-2">
-        <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
-        <p className="text-[#343636] dark:text-white font-medium">
-          {formData.personalDetails?.resume_path || 'No resume uploaded'}
-        </p>
-      </div>
+            <div className="space-y-2">
+              <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
+              <p className="text-[#343636] dark:text-white font-medium">
+                {formData.personalDetails?.resume_path || 'No resume uploaded'}
+              </p>
+            </div>
     </div>
   )}
 </div>
@@ -815,15 +816,7 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
             className="border-gray-300 focus:border-[#15BACD] focus:ring-[#15BACD] w-full"
           />
         </div>
-        <div className="space-y-2 col-span-1 md:col-span-2 md:col-start-3 md:col-end-4">
-          <Label>Resume</Label>
-          <Input
-            type="file"
-            name={`qualification_${index}_resume`}
-            onChange={(e) => handleResumeChange(e, index)}
-            className="block mt-2 w-full"
-          />
-        </div>
+        
       </div>
     ))}
     <div className="flex justify-end space-x-3 mt-6">
@@ -871,10 +864,7 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
           <Label className="text-sm text-gray-500 dark:text-gray-400">Preferred Work Type</Label>
           <p className="text-gray-900 dark:text-white font-medium">{qual.preferred_work_arrangement || 'N/A'}</p>
         </div>
-        <div className="space-y-2 col-span-2 md:col-start-3 md:col-end-4">
-          <Label className="text-sm text-gray-500 dark:text-gray-400">Resume</Label>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{formData.personalDetails?.resume_path || 'No resume uploaded'}</p>
-        </div>
+        
       </div>
     ))}
   </div>
