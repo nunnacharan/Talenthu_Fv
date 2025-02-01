@@ -656,15 +656,15 @@ const recentJob = formData.qualifications.length > 0 ? formData.qualifications[0
           />
         </div>
 
-        <div className="w-full space-y-2">
-            <Label className="text-gray-700 dark:text-gray-300">Resume</Label>
-            <input
-              type="file"
-              name="resume"
-              onChange={handleResumeChange}
-              className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#72757F] dark:bg-[#2C2C2C] dark:text-white dark:border-gray-600"
-            />
-          </div>
+       <div className="w-full space-y-2">
+                   <Label className="text-gray-700 dark:text-gray-300">Resume</Label>
+                   <input
+                     type="file"
+                     name="resume"
+                     onChange={handleResumeChange}
+                     className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#72757F] dark:bg-[#2C2C2C] dark:text-white dark:border-gray-600"
+                   />
+                 </div>
       </div>
       <div className="flex justify-end space-x-3 mt-6">
         <Button 
