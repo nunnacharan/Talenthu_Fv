@@ -187,7 +187,7 @@ const [activeFilterCount, setActiveFilterCount] = useState(0);
 
 const filterOptions = {
   availability: [
-    { value: "immediate", label: "Immediate" },
+    { value: "Immediate", label: "Immediate" },
     { value: "2_weeks", label: "2 Weeks Notice" },
     { value: "1_month", label: "1 Month Notice" },
     { value: "2_months", label: "2 Months Notice" },
