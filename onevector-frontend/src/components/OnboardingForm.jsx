@@ -877,7 +877,7 @@ const steps = [
               <SelectValue placeholder="Select availability" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="immediate">Immediate</SelectItem>
+              <SelectItem value="Immediate">Immediate</SelectItem>
               <SelectItem value="2_weeks">2 Weeks Notice</SelectItem>
               <SelectItem value="1_month">1 Month Notice</SelectItem>
               <SelectItem value="2_months">2 Months Notice</SelectItem>
